@@ -1,0 +1,5 @@
+DIRECTORY_NAME = "Dont Open This"
+ALICE_FILE_NAME = DIRECTORY_NAME + "/private_key"
+BOB_FILE_NAME = DIRECTORY_NAME + "/Deciphered_text"
+ACK = "DONE"
+PAD = "_"
