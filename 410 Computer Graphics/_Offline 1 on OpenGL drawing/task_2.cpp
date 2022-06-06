@@ -54,6 +54,8 @@ point wheelCenter, wheelFrontVector, wheelSideVector;
 
 double R, G, B;
 
+double cameraAngle, cameraHeight;
+
 
 void setRGB(int r, int g, int b) {
 	R = r/255.0;
@@ -272,19 +274,32 @@ void keyboardListener(unsigned char key, int x,int y){
 
 void specialKeyListener(int key, int x, int y){
 	switch(key){
-		case GLUT_KEY_DOWN:
-			pos = pos.add(l.mul(-MOVE_STEP));
+		// case GLUT_KEY_DOWN:
+		// 	pos = pos.add(l.mul(-MOVE_STEP));
+		// 	break;
+		// case GLUT_KEY_UP:
+		// 	pos = pos.add(l.mul(MOVE_STEP));
+		// 	break;
+
+		// case GLUT_KEY_RIGHT:
+		// 	pos = pos.add(r.mul(MOVE_STEP));
+		// 	break;
+		// case GLUT_KEY_LEFT:
+		// 	pos = pos.add(r.mul(-MOVE_STEP));
+		// 	break;
+
+		case GLUT_KEY_DOWN:		//down arrow key
+			cameraHeight -= 3.0;
 			break;
-		case GLUT_KEY_UP:
-			pos = pos.add(l.mul(MOVE_STEP));
+		case GLUT_KEY_UP:		// up arrow key
+			cameraHeight += 3.0;
 			break;
 
 		case GLUT_KEY_RIGHT:
-			pos = pos.add(r.mul(MOVE_STEP));
+			cameraAngle += 0.03;
 			break;
 		case GLUT_KEY_LEFT:
-			pos = pos.add(r.mul(-MOVE_STEP));
-			break;
+			cameraAngle -= 0.03;
 
 		case GLUT_KEY_PAGE_UP:
 			pos = pos.add(u.mul(MOVE_STEP));
@@ -323,11 +338,13 @@ void display(){
 	//1. where is the camera (viewer)?
 	//2. where is the camera looking?
 	//3. Which direction is the camera's UP direction?
-	gluLookAt(
-		pos.x, pos.y, pos.z,
-		pos.x + l.x, pos.y + l.y, pos.z + l.z, 
-		u.x, u.y, u.z
-	);
+	// gluLookAt(
+	// 	pos.x, pos.y, pos.z,
+	// 	pos.x + l.x, pos.y + l.y, pos.z + l.z, 
+	// 	u.x, u.y, u.z
+	// );
+
+	gluLookAt(200*cos(cameraAngle), 200*sin(cameraAngle), cameraHeight,		0,0,0,		0,0,1);
 
 	//again select MODEL-VIEW
 	glMatrixMode(GL_MODELVIEW);
@@ -391,6 +408,9 @@ void init(){
     // and parallel to the XY plane
     wheelSideVector = point(1, 0, 0);
 
+
+	cameraHeight=150.0;
+	cameraAngle=1.0;
 
 	//clear the screen
 	glClearColor(0,0,0,0);
